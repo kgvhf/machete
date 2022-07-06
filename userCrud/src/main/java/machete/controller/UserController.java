@@ -1,41 +1,40 @@
 package machete.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
-import machete.dto.ErrorDto;
-import machete.dto.UserDto;
-import machete.dto.UserFormDto;
-import machete.exception.UserValidationException;
+import machete.UsersApi;
+import machete.domain.UserRequest;
+import machete.domain.UserResponse;
+import machete.domain.UserUpdateRequest;
 import machete.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/users")
-public class UserController {
-    private final UserService userService;
+@RequestMapping("/api/v1")
+public class UserController implements UsersApi {
 
-    @GetMapping("/{id}")
-    public UserDto get(@PathVariable Long id) {
-        return userService.get(id);
-    }
+  private final UserService userService;
 
-    @GetMapping("")
-    public List<UserDto> getList() {
-        return userService.getList();
-    }
+  @Override
+  public ResponseEntity<UserResponse> get(Long id) {
+    return ResponseEntity.ok(userService.get(id));
+  }
 
-    @PostMapping("")
-    public UserDto create(@RequestBody UserFormDto userFormDto) {
-        return userService.create(userFormDto);
-    }
+  @Override
+  public ResponseEntity<List<UserResponse>> getList() {
+    return ResponseEntity.ok(userService.getList());
+  }
 
-    @PutMapping("/{id}")
-    public UserDto update(@PathVariable Long id, @RequestBody UserFormDto userFormDto) {
-        return userService.update(id, userFormDto);
-    }
+  @Override
+  public ResponseEntity<UserResponse> create(UserRequest userCreateRequest) {
+    return ResponseEntity.ok(userService.create(userCreateRequest));
+  }
 
-
+  @Override
+  public ResponseEntity<UserResponse> update(Long id, UserUpdateRequest userUpdateRequest) {
+    return ResponseEntity.ok(userService.update(id, userUpdateRequest));
+  }
 }

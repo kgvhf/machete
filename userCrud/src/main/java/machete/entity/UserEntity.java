@@ -1,12 +1,17 @@
 package machete.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import machete.dto.Gender;
-
-import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -35,4 +40,9 @@ public class UserEntity {
 
     @Column(name = "comment")
     private String comment;
+
+    public enum Gender {
+        F,
+        M
+    }
 }
