@@ -1,15 +1,12 @@
 package machete.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import javax.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import machete.domain.UserRequest;
 import machete.domain.UserResponse;
 import machete.domain.UserUpdateRequest;
 import machete.exception.UserNotFoundException;
-import machete.exception.UserValidationException;
 import machete.mapper.UserMapper;
 import machete.repository.UserRepository;
 import machete.service.UserService;
@@ -21,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
-  private final Validator validator;
   private final UserMapper userMapper;
 
   @Override
@@ -38,7 +34,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserResponse create(UserRequest userFormDto) {
-    validateUserRequest(userFormDto);
     var user = userMapper.toUserEntity(userFormDto);
     var savedUser = userRepository.save(user);
     return userMapper.toUserResponse(savedUser);
@@ -51,22 +46,7 @@ public class UserServiceImpl implements UserService {
 
     userMapper.updateUserEntity(user, userFormDto);
 
-    var userRequest = userMapper.toUserRequest(user);
-
-    validateUserRequest(userRequest);
     var savedUser = userRepository.save(user);
     return userMapper.toUserResponse(savedUser);
-  }
-
-  private void validateUserRequest(UserRequest userFormDto) {
-    var constraints = validator.validate(userFormDto);
-    if (constraints.isEmpty()) {
-      return;
-    }
-    throw new UserValidationException(constraints.stream()
-        .map(userFormDtoConstraintViolation ->
-            userFormDtoConstraintViolation.getPropertyPath() + " "
-                + userFormDtoConstraintViolation.getMessage())
-        .collect(Collectors.joining(",")));
   }
 }

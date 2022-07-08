@@ -24,7 +24,3 @@ springdoc:
   swagger-ui:
     path: /swagger-ui-custom.html
     operationsSorter: method
-
-logging:
-  level:
-    ROOT: DEBUG
