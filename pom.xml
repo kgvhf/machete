@@ -22,7 +22,6 @@
   <description>user crud with kafka</description>
   <properties>
     <java.version>11</java.version>
-    <spring-cloud.version>2021.0.3</spring-cloud.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -54,9 +53,18 @@
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-openfeign</artifactId>
       </dependency>
+
+      <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-stream-kafka -->
       <dependency>
         <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-stream</artifactId>
+        <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+        <version>3.2.4</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-openfeign</artifactId>
+        <version>3.1.3</version>
       </dependency>
 
       <dependency>
@@ -79,16 +87,7 @@
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-stream</artifactId>
-        <scope>test</scope>
-        <classifier>test-binder</classifier>
-        <type>test-jar</type>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-dependencies</artifactId>
-        <version>${spring-cloud.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
+        <version>3.0.0.RELEASE</version>
       </dependency>
       <dependency>
         <groupId>mi</groupId>

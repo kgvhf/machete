@@ -24,11 +24,13 @@ public class UserServiceImpl implements UserService {
   public UserResponse get(Long id) {
     var userOptional = userRepository.findById(id);
     var user = userOptional.orElseThrow(() -> new UserNotFoundException(id));
+    log.info("user получен по id {}", id);
     return userMapper.toUserResponse(user);
   }
 
   @Override
   public List<UserResponse> getList() {
+    log.info("получение всех user");
     return userMapper.toUserResponses(userRepository.findAll());
   }
 
@@ -36,6 +38,7 @@ public class UserServiceImpl implements UserService {
   public UserResponse create(UserRequest userFormDto) {
     var user = userMapper.toUserEntity(userFormDto);
     var savedUser = userRepository.save(user);
+    log.info("user сохранен {}", savedUser);
     return userMapper.toUserResponse(savedUser);
   }
 
@@ -47,6 +50,7 @@ public class UserServiceImpl implements UserService {
     userMapper.updateUserEntity(user, userFormDto);
 
     var savedUser = userRepository.save(user);
+    log.info("user обновлен {}", savedUser);
     return userMapper.toUserResponse(savedUser);
   }
 }
